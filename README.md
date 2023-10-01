@@ -1,4 +1,4 @@
- # How to find nth highest salary in sql (SQL SERVER)
+  How to find nth highest salary in sql (SQL SERVER)
  Script:
 Create table Employees
 (
@@ -17,21 +17,21 @@ Insert into Employees values ('Pinki', 'Kumari', 'Female', 30000)
 Insert into Employees values ('Tanya', 'Kumari', 'Female', 35000)
 Insert into Employees values ('Ritik', 'Kumar', 'Male', 80000)
 
- #To  find the  highest salary it is straight forward. we can simply use the Max() function as shown below.
+ To  find the  highest salary it is straight forward. we can simply use the Max() function as shown below.
 Select MAX(salary)as Maxsalary from Employees;
 
-#To get the second highest salary use a sub query along with MAX() function as show below.
+To get the second highest salary use a sub query along with MAX() function as show below.
 Select MAX(salary)  as second_highest from Employees where salary <
 (Select MAX(salary)   from Employees );
 
-# Find the nth highest salary
+ Find the nth highest salary
 SELECT Salary
 FROM (
     SELECT Salary, ROW_NUMBER() OVER (ORDER BY Salary DESC) AS RowNum
     FROM Employees
 ) AS RankedSalaries
 WHERE RowNum = 2;
-# OR
+ OR
 SELECT TOP 1 salary FROM 
 (
 SELECT  DISTINCT  TOP /*nth number*/2 salary FROM Employees order by salary desc  
