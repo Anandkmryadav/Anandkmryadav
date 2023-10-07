@@ -1,0 +1,22 @@
+How to find nth highest salary in sql
+Create table EMP
+(
+ID int primary key identity,
+Name nvarchar(50),
+Gender  nvarchar(50),
+Salary int
+);
+
+WITH Result AS
+(
+SELECT Salary,DENSE_RANK() OVER (ORDER BY SALARY DESC) AS DENSERANK
+FROM nthHighestsalary
+)
+SELECT TOP 1 Salary FROM RESULT WHERE DENSERANK=N
+Example 
+WITH Result AS
+(
+SELECT Salary,DENSE_RANK() OVER (ORDER BY SALARY DESC) AS DENSERANK
+FROM nthHighestsalary
+)
+SELECT TOP 1 Salary FROM RESULT WHERE DENSERANK=2
