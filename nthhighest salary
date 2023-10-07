@@ -7,6 +7,22 @@ Gender  nvarchar(50),
 Salary int
 );
 
+Insert into Emp values ('Hoskins', 'Male', 70000)
+Insert into Emp values ('Hastings', 'Male', 60000)
+Insert into Emp values ('Pound', 'Male', 45000)
+Insert into Emp values ('Hoskins', 'Male', 70000)
+Insert into Emp values ('Hastings', 'Male', 45000)
+Insert into Emp values ('Lambeth', 'Female', 30000)
+Insert into Emp values ('Vikings', 'Female', 35000)
+Insert into Emp values ( 'Stanmore', 'Mal','80000')
+
+To  find the  highest salary it is straight forward. we can simply use the Max() function as shown below.
+Select MAX(salary)as Maxsalary from Employees;
+
+To get the second highest salary use a sub query along with MAX() function as show below.
+Select MAX(salary)  as second_highest from Employees where salary <
+(Select MAX(salary)   from Employees );
+
 WITH Result AS
 (
 SELECT Salary,DENSE_RANK() OVER (ORDER BY SALARY DESC) AS DENSERANK
