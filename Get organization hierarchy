@@ -1,0 +1,53 @@
+Create table Employees
+(
+ EmployeeID int primary key identity,
+ EmployeeName nvarchar(50),
+ ManagerID int foreign key references Employees(EmployeeID)
+)
+
+Insert into Employees values ('Aman', NULL)
+Insert into Employees values ('Shekhar', NULL)
+Insert into Employees values ('Anand', NULL)
+Insert into Employees values ('Vikas', NULL)
+Insert into Employees values ('Bharat', NULL)
+Insert into Employees values ('Suman', NULL)
+Insert into Employees values ('Satish', NULL)
+Insert into Employees values ('Arun', NULL)
+Insert into Employees values ('Ritik', NULL)
+Insert into Employees values ('Roshan', NULL)
+Go
+
+Update Employees Set ManagerID = 8 Where EmployeeName IN ('Anand', 'Vikas', 'Satish')
+Update Employees Set ManagerID = 2 Where EmployeeName IN ('Ritik', 'Roshan')
+Update Employees Set ManagerID = 3 Where EmployeeName IN ('Bharat')
+Update Employees Set ManagerID = 5 Where EmployeeName IN ('Aman', 'Arun')
+Update Employees Set ManagerID = 4 Where EmployeeName IN ('Suman')
+Go
+Solution 
+Declare @ID int ;
+Set @ID = 7;
+
+WITH EmployeeCTE AS
+(
+ Select EmployeeId, EmployeeName, ManagerID
+ From Employees
+ Where EmployeeId = @ID
+ 
+ UNION ALL
+ 
+ Select Employees.EmployeeId , Employees.EmployeeName, Employees.ManagerID
+ From Employees
+ JOIN EmployeeCTE
+ ON Employees.EmployeeId = EmployeeCTE.ManagerID
+)
+
+Select E1.EmployeeName, ISNULL(E2.EmployeeName, 'No Boss') as ManagerName
+From EmployeeCTE E1
+LEFT Join EmployeeCTE E2
+ON E1.ManagerID = E2.EmployeeId
+
+
+
+
+
+
