@@ -1,14 +1,14 @@
-  How to find nth highest salary in sql (SQL SERVER)
+  How to find the nth highest salary in SQL (SQL SERVER)
  Script:
 Create table Employees
 (
      ID int primary key identity,
-     FirstName nvarchar(50),
-     LastName nvarchar(50),
-     Gender nvarchar(50),
+     FirstName varchar(50),
+     LastName varchar(50),
+     Gender varchar(50),
      Salary int
 )
-Insert into Employees values ('Anand', 'kumar', 'Male', 70000)
+Insert into Employees values ('Anand', 'Kumar', 'Male', 70000)
 Insert into Employees values ('Arun', 'kmr', 'Male', 60000)
 Insert into Employees values ('Sudhir', 'kr', 'Male', 45000)
 Insert into Employees values ('Satish', 'Yadav', 'Male', 70000)
