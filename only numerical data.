@@ -1,0 +1,17 @@
+Create Table TestTable
+(
+ ID int identity primary key,
+ DATA nvarchar(50)
+)
+
+Insert into TestTable DATA ('888')
+Insert into TestTable DATA ('ANAND')
+Insert into TestTable DATA ('555')
+Insert into TestTable DATA ('VIKAS')
+Insert into TestTable DATA ('222')
+Insert into TestTable DATA ('SUDHIR')
+QUERY
+ONLY FOR  NUMERIC
+SELECT DATA FROM TestTable WHERE ISNUMERIC(DATA) = 1
+NOT IN NUMERIC
+SELECT Value FROM TestTable WHERE ISNUMERIC(Value) <> 1;
