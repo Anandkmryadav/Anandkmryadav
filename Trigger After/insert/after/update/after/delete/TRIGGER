@@ -1,0 +1,157 @@
+CREATE TABLE products (
+    product_id INT AUTO_INCREMENT PRIMARY KEY,
+    product_name VARCHAR(255) NOT NULL,
+    description TEXT,
+    price DECIMAL(10, 2) NOT NULL,
+    stock_quantity INT NOT NULL,
+    release_date DATE
+);
+
+-- Insert record 1
+INSERT INTO products (product_name, description, price, stock_quantity, release_date)
+VALUES ('Laptop', 'High-performance laptop with SSD', 799.99, 50, '2023-10-15');
+
+-- Insert record 2
+INSERT INTO products (product_name, description, price, stock_quantity, release_date)
+VALUES ('Smartphone', 'Latest model with advanced features', 499.99, 100, '2023-10-12');
+
+-- Insert record 3
+INSERT INTO products (product_name, description, price, stock_quantity, release_date)
+VALUES ('Tablet', '10-inch screen with long battery life', 299.99, 30, '2023-10-20');
+
+-- Insert record 4
+INSERT INTO products (product_name, description, price, stock_quantity, release_date)
+VALUES ('Headphones', 'Wireless noise-canceling headphones', 149.99, 75, '2023-10-18');
+
+-- Insert record 5
+INSERT INTO products (product_name, description, price, stock_quantity, release_date)
+VALUES ('Keyboard', 'Mechanical gaming keyboard', 69.99, 40, '2023-10-25');
+
+-- Insert record 6
+INSERT INTO products (product_name, description, price, stock_quantity, release_date)
+VALUES ('Monitor', '27-inch 4K Ultra HD monitor', 349.99, 20, '2023-10-22');
+
+-- Insert record 7
+INSERT INTO products (product_name, description, price, stock_quantity, release_date)
+VALUES ('Mouse', 'Wireless ergonomic mouse', 29.99, 60, '2023-10-14');
+
+-- Insert record 8
+INSERT INTO products (product_name, description, price, stock_quantity, release_date)
+VALUES ('Printer', 'Color inkjet printer with Wi-Fi', 89.99, 10, '2023-10-28');
+
+-- Insert record 9
+INSERT INTO products (product_name, description, price, stock_quantity, release_date)
+VALUES ('Camera', 'Digital camera with 20MP sensor', 199.99, 15, '2023-10-19');
+
+-- Insert record 10
+INSERT INTO products (product_name, description, price, stock_quantity, release_date)
+VALUES ('External Hard Drive', '2TB USB 3.0 external hard drive', 79.99, 25, '2023-10-26');
+
+---Create log table 
+CREATE TABLE products_log (
+  id INT NOT NULL AUTO_INCREMENT,
+  product_id int ,
+  product_name varchar(255) NOT NULL,
+  description text,
+  price decimal(10,2) NOT NULL,
+  stock_quantity int NOT NULL,
+  release_date date DEFAULT NULL,
+  PRIMARY KEY (id),
+  message varchar(10),
+  actiondtd datetime default  current_timestamp
+) ;
+
+DELIMITER //
+CREATE TRIGGER tr_products_UPDATE
+AFTER UPDATE 
+ON products 
+FOR EACH ROW
+BEGIN
+    INSERT INTO products_log 
+    ( 
+        product_id, 
+        product_name, 
+        DESCRIPTION, 
+        price, 
+        stock_quantity, 
+        release_date, 
+        
+        message
+    )
+    VALUES
+    ( 
+        NEW.product_id,
+        NEW.product_name, 
+        NEW.description, 
+        NEW.price, 
+        NEW.stock_quantity, 
+        NEW.release_date,  
+        'UPDATE'
+    );
+END;
+//
+DELIMITER ;
+
+
+------------------
+  DELIMITER //
+CREATE TRIGGER tr_products_insert
+AFTER insert 
+ON products 
+FOR EACH ROW
+BEGIN
+    INSERT INTO products_log 
+    ( 
+        product_id, 
+        product_name, 
+        DESCRIPTION, 
+        price, 
+        stock_quantity, 
+        release_date, 
+        
+        message
+    )
+    VALUES
+    ( 
+        NEW.product_id,
+        NEW.product_name, 
+        NEW.description, 
+        NEW.price, 
+        NEW.stock_quantity, 
+        NEW.release_date,  
+        'iNSERT'
+    );
+END;
+//
+DELIMITER ;
+--------------
+  DELIMITER //
+CREATE TRIGGER tr_products_Delete
+AFTER Delete 
+ON products 
+FOR EACH ROW
+BEGIN
+    INSERT INTO products_log 
+    ( 
+        product_id, 
+        product_name, 
+        DESCRIPTION, 
+        price, 
+        stock_quantity, 
+        release_date, 
+        
+        message
+    )
+    VALUES
+    ( 
+        OLD.product_id,
+        OLD.product_name, 
+        OLD.description, 
+        OLD.price, 
+        OLD.stock_quantity, 
+        OLD.release_date,  
+        'dELETE'
+    );
+END;
+//
+DELIMITER ;
